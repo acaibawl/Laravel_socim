@@ -11,7 +11,8 @@ $factory->define(Bookdetail::class, function (Faker $faker) {
         'isbn' => $faker->isbn13,
         'published_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'price' => $faker->randomNumber(4),
-        'created_at' => $now,
-        'updated_at' => $now,
+        // コメントアウトしてても、デフォルトで自動的にタイムスタンプは更新される
+        // 'created_at' => $now,
+        // 'updated_at' => $now,
     ];
 });
