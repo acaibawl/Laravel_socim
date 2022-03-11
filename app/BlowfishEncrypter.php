@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
+use RuntimeException;
 use phpseclib\Crypt\Blowfish;
+use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class BlowfishEncrypter implements EncrypterContract
 {
@@ -23,5 +24,10 @@ class BlowfishEncrypter implements EncrypterContract
   public function decrypt($payload, $unserialize = true)
   {
     return $this->encrypter->decrypt($payload);
+  }
+
+  public function getKey()
+  {
+      return 'aaa';
   }
 }
