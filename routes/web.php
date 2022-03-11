@@ -28,3 +28,4 @@ Route::post('/auth/login', 'Auth\LoginCOntroller@login');
 Route::get('/auth/logout', 'Auth\LoginController@logout');
 
 Route::get('/stream-response', 'StreamResponseAction');
+Route::get('/payload', 'ArticlePayloadAction');
