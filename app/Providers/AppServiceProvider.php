@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\BlowfishEncrypter;
+use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
+use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('encrypter', function ($app) {
+            $config = $app->make('config')->get('app');
+
+            if (Str::startsWith($key = $this->key($config), 'base64:')) {
+                $key = base64_decode(substr($key, 7));
+            }
+            return new BlowfishEncrypter($key);
+        });
+    }
+
+    protected function key(array $config)
+    {
+        return tap($config['key'], function ($key) {
+            if (empty($key)) {
+                throw new RuntimeException(
+                    'No application encryption key has been specified.'
+                );
+            }
+        });
     }
 }
