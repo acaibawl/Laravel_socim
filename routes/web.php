@@ -29,3 +29,6 @@ Route::get('/auth/logout', 'Auth\LoginController@logout');
 
 Route::get('/stream-response', 'StreamResponseAction');
 Route::get('/payload', 'ArticlePayloadAction');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

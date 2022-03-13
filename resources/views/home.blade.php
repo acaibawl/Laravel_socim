@@ -1,20 +1,23 @@
-<html>
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-</head>
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
 
-<body>
-    こんにちは！
-    @if (Auth::check())
-        {{ \Auth::user()->name }}さん
-        <a href="/auth/logout">ログアウト</a>
-    @else
-        ゲストさん<br>
-        <a href="/auth/login">ログイン</a>
-        <a href="/auth/register">会員登録</a>
-    @endif
-</body>
+                <div class="panel-body">
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-</html>
-
+                    You are logged in!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
