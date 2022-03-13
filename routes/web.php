@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use App\CustomNamespace\PublishProcessor;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/home', function() {
     return view('home');
@@ -32,3 +35,10 @@ Route::get('/payload', 'ArticlePayloadAction');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/', function() {
+    $view = view('welcome');
+    // Dispacherクラス経由でEventを実行する場合
+    Event::dispatch(new PublishProcessor(1));
+    return $view;
+});
