@@ -42,3 +42,5 @@ Route::get('/', function() {
     Event::dispatch(new PublishProcessor(1));
     return $view;
 });
+
+Route::get('/pdf', 'PdfGeneratoController@index');

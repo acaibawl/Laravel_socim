@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use Knp\Snappy\Pdf;
+use RuntimeException;
 use App\BlowfishEncrypter;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
-use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,13 @@ class AppServiceProvider extends ServiceProvider
             \App\DataProvider\FavoriteRepositoryInterface::class,
             \App\DataProvider\FavoriteRepository::class
         );
+
+        // コンストラクタインジェクション、およびメソッドインジェクションで、
+        // Knp\Snappy\Pdfと型宣言されていれば、無名関数で記述した通りにインスタンス生成が行われ、
+        // 利用するクラスにオブジェクトが渡されます。
+        $this->app->bind(Pdf::class, function() {
+            return new Pdf('/usr/local/bin/wkhtmltopdf');
+        });
     }
 
     protected function key(array $config)
