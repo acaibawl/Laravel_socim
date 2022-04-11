@@ -25,15 +25,5 @@ Route::get('/ping', function() {
     return response()->json(['message' => 'pong']);
 });
 
-Route::get('customers', function() {
-    return response()->json(Customer::query()->select(['id', 'name'])->get());
-});
-Route::post('customers', function(Request $request) {
-    // 仮実装
-    if (!$request->json('name')) {
-        return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-    $customer = new Customer();
-    $customer->name = $request->json('name');
-$customer->save();
-});
+Route::get('customers', 'ApiController@getCustomers');
+Route::post('customers', 'ApiController@postCustomers');
