@@ -4,6 +4,7 @@ use App\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,16 @@ Route::get('/ping', function() {
 
 Route::get('customers', 'ApiController@getCustomers');
 Route::post('customers', 'ApiController@postCustomers');
+
+# 引数なし
+Route::get('no_args', function() {
+    Artisan::call('no-args-command');
+});
+
+# 引数あり
+Route::get('/with_args', function() {
+    Artisan::call('with-args-command', [
+        'arg' => 'value',
+        '--switch' => false
+    ]);
+});
