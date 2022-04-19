@@ -41,3 +41,10 @@ Route::get('/with_args', function() {
         '--switch' => false
     ]);
 });
+
+# 購入情報のバッチ仮受信用のAPI
+Route::post('/import-orders', function (Request $request) {
+    $json = $request->getContent();
+    file_put_contents('/tmp/orders_api', $json);
+    return response('ok');
+});
