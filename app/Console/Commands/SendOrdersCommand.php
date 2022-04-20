@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\UseCases\SendOrderUseCase;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Psr\Log\LoggerInterface;
 
 class SendOrdersCommand extends Command
 {
@@ -22,6 +23,9 @@ class SendOrdersCommand extends Command
      */
     protected $description = '購入情報を送信する';
 
+    /** @var LoggerInterface */
+    private LoggerInterface $logger;
+
     /** @var SendOrderUseCase */
     private SendOrderUseCase $useCase;
 
@@ -30,11 +34,12 @@ class SendOrdersCommand extends Command
      *
      * @return void
      */
-    public function __construct(SendOrderUseCase $useCase)
+    public function __construct(SendOrderUseCase $useCase, LoggerInterface $logger)
     {
         parent::__construct();
 
         $this->useCase = $useCase;
+        $this->logger = $logger;
     }
 
     /**
@@ -44,9 +49,13 @@ class SendOrdersCommand extends Command
      */
     public function handle()
     {
+        $this->logger->info(__METHOD__ . ' ' . 'start');
+
         $date = $this->argument('date');
         $targetDate = Carbon::createFromFormat('Ymd', $date);
-        $this->useCase->run($targetDate);
-        $this->info('ok');
+        $this->logger->info('TargerDate:' . $date);
+
+        $count = $this->useCase->run($targetDate);
+        $this->logger->info(__METHOD__ . ' ' . 'done sent_count: ' . $count);
     }
 }
