@@ -48,3 +48,5 @@ Route::post('/import-orders', function (Request $request) {
     file_put_contents('/tmp/orders_api', $json);
     return response('ok');
 });
+
+Route::post('/review', 'Review\\RegisterAction');

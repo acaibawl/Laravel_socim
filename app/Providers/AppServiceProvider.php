@@ -5,6 +5,8 @@ namespace App\Providers;
 use Knp\Snappy\Pdf;
 use RuntimeException;
 use App\BlowfishEncrypter;
+use App\DataProvider\Database\RegisterReviewDataProvider;
+use App\DataProvider\RegisterReviewProviderInterface;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +48,10 @@ class AppServiceProvider extends ServiceProvider
         // 利用するクラスにオブジェクトが渡されます。
         $this->app->bind(Pdf::class, function() {
             return new Pdf('/usr/local/bin/wkhtmltopdf');
+        });
+
+        $this->app->bind(RegisterReviewProviderInterface::class, function() {
+            return new RegisterReviewDataProvider();
         });
     }
 
