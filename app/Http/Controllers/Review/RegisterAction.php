@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Review;
 
-use App\DataProvider\RegisterReviewProviderInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\DataProvider\RegisterReviewProviderInterface;
 
 class RegisterAction extends Controller
 {

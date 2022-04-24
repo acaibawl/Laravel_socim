@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "elasticsearch/elasticsearch": "7.*",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^7.4",
         "knplabs/knp-snappy": "^1.4",

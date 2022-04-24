@@ -1,14 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
 use Knp\Snappy\Pdf;
 use RuntimeException;
 use App\BlowfishEncrypter;
-use App\DataProvider\Database\RegisterReviewDataProvider;
-use App\DataProvider\RegisterReviewProviderInterface;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Application;
+use App\Foundation\ElasticsearchClient;
 use Illuminate\Support\ServiceProvider;
+use App\DataProvider\AddReviewIndexProviderInterface;
+use App\DataProvider\RegisterReviewProviderInterface;
+use App\DataProvider\Database\RegisterReviewDataProvider;
+use App\DataProvider\Elasticsearch\AddReviewIndexDataProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -53,6 +58,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RegisterReviewProviderInterface::class, function() {
             return new RegisterReviewDataProvider();
         });
+
+        $this->app->singleton(ElasticsearchClient::class, function (Application $app) {
+            $config = $app['config']->get('elasticsearch');
+            return new ElasticsearchClient($config['hosts']);
+        });
+
+        $this->app->bind(AddReviewIndexProviderInterface::class, function(Application $app) {
+            return new AddReviewIndexDataProvider($app->make(ElasticsearchClient::class));
+        });
+
+        
     }
 
     protected function key(array $config)
