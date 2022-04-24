@@ -50,3 +50,4 @@ Route::post('/import-orders', function (Request $request) {
 });
 
 Route::post('/review', 'Review\\RegisterAction');
+Route::get('/review', 'Review\\ReadAction');
