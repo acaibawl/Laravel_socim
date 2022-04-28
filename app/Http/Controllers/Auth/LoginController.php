@@ -44,4 +44,10 @@ class LoginController extends Controller
         $request->session()->invalidate();
         return redirect('/home');
     }
+
+    public function username()
+    {
+        // ログインに使うカラムをデフォルトemailから変更
+        return 'name';
+    }
 }
