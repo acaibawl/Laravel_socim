@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Auth\CacheUserProvider;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -25,6 +27,15 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        $this->app['auth']->provider(
+            'cache_eloquent',
+            function (Application $app, array $config) {
+                return new CacheUserProvider(
+                    $app['hash'],
+                    $config['model'],
+                    $app['cache']
+                );
+            }
+        );
     }
 }
