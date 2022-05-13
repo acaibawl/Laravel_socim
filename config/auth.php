@@ -41,10 +41,21 @@ return [
             'provider' => 'users',
         ],
 
+        'web-cached' => [
+            'driver' => 'session',
+            'provider' => 'cached',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'user_token_provider',
         ],
+
+        'jwt-api' => [
+            // jwtドライバを追加
+            'driver' => 'jwt',
+            'provider' => 'jwt_users',
+        ]
     ],
 
     /*
@@ -77,6 +88,11 @@ return [
              'driver' => 'database',
              'table' => 'users',
          ],
+
+        'jwt_users' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
     ],
 
     /*

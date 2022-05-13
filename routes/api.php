@@ -52,4 +52,12 @@ Route::post('/import-orders', function (Request $request) {
 Route::post('/review', 'Review\\RegisterAction');
 Route::get('/review', 'Review\\ReadAction');
 
-Route::get('/users', 'UserAction');
+// Route::get('/users', 'UserAction');
+
+Route::group(['middleware' => 'api'], function ($router) {
+    // ログインを行ない、アクセストークンを発行するルート
+    Route::post('/users/login', 'User\\LoginAction');
+    // アクセストークンを用いて、認証ユーザーの情報を取得するルート
+    // middlewareにconfig/auth.phpに定義したjwt用のguard（認証方法）を指定している
+    Route::get('/users/', 'User\\RetrieveAction')->middleware('auth:jwt-api');
+});
