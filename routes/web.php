@@ -47,3 +47,4 @@ Route::get('/pdf', 'PdfGeneratoController@index');
 
 Route::get('/users/register', 'Register\\RegisterAction');
 Route::get('/register/callback', 'Register\\CallBackAction');
+Route::get('/users/{id}', 'User\\RetrievePolicyAction');

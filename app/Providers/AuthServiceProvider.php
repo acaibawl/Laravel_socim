@@ -6,6 +6,7 @@ use App\Auth\CacheUserProvider;
 use App\Auth\UserTokenProvider;
 use App\DataProvider\Database\UserToken;
 use App\Gate\UserAccess;
+use App\Policies\ContentPolicy;
 use App\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
@@ -22,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        \stdClass::class => ContentPolicy::class,
     ];
 
     /**
