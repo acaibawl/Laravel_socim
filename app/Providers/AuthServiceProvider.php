@@ -5,9 +5,13 @@ namespace App\Providers;
 use App\Auth\CacheUserProvider;
 use App\Auth\UserTokenProvider;
 use App\DataProvider\Database\UserToken;
+use App\Gate\UserAccess;
+use App\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,9 +29,17 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(GateContract $gate, LoggerInterface $logger)
     {
         $this->registerPolicies();
+
+        // 'user-access'という名前の認可処理を定義
+        $gate->define('user-access', new UserAccess());
+        $gate->before(function ($user, $ability) use ($logger) {
+            $logger->info($ability, [
+                'user_id' => $user->getAuthIdentifier()
+            ]);
+        });
 
 //        $this->app['auth']->provider(
 //            'cache_eloquent',
